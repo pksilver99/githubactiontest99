@@ -48,6 +48,7 @@ jobs:
       - name: terraform plan
         working-directory: terraform/dev
         run: |
+          Get-ChildItem -Recurse
           terraform plan -out=tfplan
           terraform show -no-color tfplan
 
