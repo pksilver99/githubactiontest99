@@ -34,14 +34,17 @@ jobs:
 
       # terraform installation
       - name: terraform setup
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.7.5
+        uses: hashicorp/setup-terraform@v3
+        
       
       # install check
       - name: Check terraform version
-        run: terraform --version
         shell: pwsh
+        run: |
+          
+          $env:Path = "${env:TERRAFORM_CLI_PATH};$env:Path"
+          terraform --version
+          
 
       # terraform init
       - name: terraform init
