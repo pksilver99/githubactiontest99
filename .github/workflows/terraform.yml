@@ -48,7 +48,8 @@ jobs:
       - name: terraform plan
         working-directory: terraform/dev
         run: |
-          terraform plan
+          terraform plan -out=tfplan
+          terraform plan show -out=tfplan
 
       # terraform apply
       - name: terraform apply
@@ -56,7 +57,7 @@ jobs:
         run: |
           terraform apply -auto-approve
 
-          
+
 
       
           
