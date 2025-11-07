@@ -25,6 +25,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
         uses: actions/checkout@v4
+       
+      # Authentication  
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
 
       # terraform installation
       - name: terraform setup
@@ -43,4 +49,14 @@ jobs:
         working-directory: terraform/dev
         run: |
           terraform plan
+
+      # terraform apply
+      - name: terraform apply
+        working-directory: terraform/dev
+        run: |
+          terraform apply -auto-approve
+
+          
+
+      
           
