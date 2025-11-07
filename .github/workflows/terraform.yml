@@ -37,15 +37,21 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.7.5
+      
+      # install check
+      - name: Check terraform version
+        run: terraform --version
+        shell: pwsh
 
       # terraform init
       - name: terraform init
         working-directory: terraform/dev
         run: |
-          terraform init
+          terraform init -input=false -no-color
       
       # terraform plan
       - name: terraform plan
+        shell: pwsh
         working-directory: terraform/dev
         run: |
           Get-ChildItem -Recurse
