@@ -49,7 +49,7 @@ jobs:
         working-directory: terraform/dev
         run: |
           terraform plan -out=tfplan
-          terraform plan show -out=tfplan
+          terraform show -out=tfplan
 
       # terraform apply
       - name: terraform apply
