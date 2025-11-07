@@ -50,5 +50,13 @@ jobs:
         run: |
           terraform plan
 
+      # terraform apply
+      - name: terraform apply
+        working-directory: terraform/dev
+        run: |
+          terraform apply -auto-approve
+
+          
+
       
           
