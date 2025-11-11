@@ -69,10 +69,12 @@ jobs:
         working-directory: terraform/dev
         run: |
           terraform show -no-color tfplan
-          # Optional: Check if the plan found any changes
-          if ($LASTEXITCODE -ne 0) {
-              Write-Host "Terraform plan succeeded but found no changes (0 to add, 0 to change, 0 to destroy)."
-          }
+          
+          if [ $? -ne 0 ]; then
+            echo "Terraform plan failed."
+            exit 1
+          fi
+          
 
       # terraform apply
       - name: terraform apply
