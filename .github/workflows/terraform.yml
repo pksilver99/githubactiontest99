@@ -31,6 +31,10 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+      
+      - name: display env. variables
+        run: env
+          
 
       # terraform installation
       - name: terraform setup
