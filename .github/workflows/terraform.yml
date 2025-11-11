@@ -34,14 +34,17 @@ jobs:
 
       # terraform installation
       - name: terraform setup
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.7.5
+        uses: hashicorp/setup-terraform@v3
+        
       
       # install check
       - name: Check terraform version
-        run: terraform --version
         shell: pwsh
+        run: |
+          
+          $env:Path = "${env:TERRAFORM_CLI_PATH};$env:Path"
+          terraform --version
+          
 
       # terraform init
       - name: terraform init
@@ -50,19 +53,32 @@ jobs:
           terraform init -input=false -no-color
       
       # terraform plan
-      - name: terraform plan
+      - name: chk directory
         shell: pwsh
         working-directory: terraform/dev
         run: |
           Get-ChildItem -Recurse
+         
+
+      - name: terraform plan (save tfplan)
+        working-directory: terraform/dev
+        run: |
           terraform plan -out=tfplan
+
+      - name: terraform plan (display tfplan)
+        working-directory: terraform/dev
+        run: |
           terraform show -no-color tfplan
+          # Optional: Check if the plan found any changes
+          if ($LASTEXITCODE -ne 0) {
+              Write-Host "Terraform plan succeeded but found no changes (0 to add, 0 to change, 0 to destroy)."
+          }
 
       # terraform apply
       - name: terraform apply
         working-directory: terraform/dev
         run: |
-          terraform apply -auto-approve
+          terraform apply -auto-approve tfplan
 
 
 
